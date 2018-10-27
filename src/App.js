@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 import Header from './components/Header';
 import Login from './components/Login';
 import './stylesheets/styles.scss';
@@ -14,7 +15,9 @@ const App = () => (
       <main>
         <Switch>
           <Route exact path="/" component={Login} />
-          <Route path="/a" component={Header} />
+          <AuthenticatedRoute>
+            <Route path="/home" component={Header} />
+          </AuthenticatedRoute>
         </Switch>
       </main>
     </div>

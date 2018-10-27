@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
+import { Redirect } from 'react-router-dom';
 
+import validateFunc from '../../util/auth';
 import './styles.scss';
 import Modal from '../Modal';
 
@@ -9,24 +11,41 @@ class Login extends Component {
     super(props);
 
     this.state = {
+      auth: false,
       error: null,
     };
 
     this.handleGoogleSuccess = this.handleGoogleSuccess.bind(this);
     this.handleGoogleFailure = this.handleGoogleFailure.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
+    this.checkAlreadyAuthenticated = this.checkAlreadyAuthenticated.bind(this);
+    this.checkAlreadyAuthenticated();
   }
 
-  async handleGoogleSuccess({ profileObj, tokenObj }) {
-    console.log(profileObj);
-    console.log(tokenObj);
-    const resp = await window.fetch(`${process.env.API_ROOT_URL}/login`, {
+  async checkAlreadyAuthenticated() {
+    try {
+      await validateFunc();
+      this.setState({ auth: true });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async handleGoogleSuccess({ tokenObj }) {
+    const resp = await window.fetch(`${process.env.BACKEND_ROOT_URL}/api/oauth/token`, {
       method: 'POST',
-      body: JSON.stringify({ profileObj, tokenObj }),
+      body: JSON.stringify({
+        grant_type: 'password',
+        google_id_token: tokenObj.id_token,
+      }),
     });
+    const { access_token, refresh_token } = await resp.json();
+    window.localStorage.setItem('access_token', access_token);
+    window.localStorage.setItem('refresh_token', refresh_token);
     if (!resp.ok) {
       this.setState({ error: `Error logging in: HTTP ${resp.status}` });
     }
+    this.checkAlreadyAuthenticated();
   }
 
   handleGoogleFailure({ error }) {
@@ -38,7 +57,10 @@ class Login extends Component {
   }
 
   render() {
-    const { error } = this.state;
+    const { auth, error } = this.state;
+    if (auth) {
+      return <Redirect to="/home" />;
+    }
     return (
       <div className="login">
         <Modal show={error !== null} onClose={this.handleModalClose}>
@@ -49,7 +71,6 @@ class Login extends Component {
           clientId={process.env.GOOGLE_CLIENT_ID}
           onSuccess={this.handleGoogleSuccess}
           onFailure={this.handleGoogleFailure}
-          autoLoad
         />
       </div>
     );
