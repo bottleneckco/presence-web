@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { Redirect } from 'react-router-dom';
 
-import validateFunc from '../../util/auth';
 import './styles.scss';
 import Modal from '../Modal';
+import validateToken from '../../util/auth';
 
 class Login extends Component {
   constructor(props) {
@@ -24,10 +24,30 @@ class Login extends Component {
 
   async checkAlreadyAuthenticated() {
     try {
-      await validateFunc();
+      const accessToken = window.localStorage.getItem('access_token');
+      await validateToken(accessToken);
       this.setState({ auth: true });
     } catch (e) {
       console.error(e);
+      const refreshToken = window.localStorage.getItem('refresh_token');
+      if (refreshToken) {
+        try {
+          await validateToken(refreshToken);
+          // Exchange refresh token for new tokens
+          const resp = await window.fetch(`${process.env.BACKEND_ROOT_URL}/api/oauth/token`, {
+            method: 'POST',
+            body: JSON.stringify({
+              grant_type: 'refresh_token',
+              refresh_token: refreshToken,
+            }),
+          });
+          const { access_token, refresh_token } = await resp.json();
+          window.localStorage.setItem('access_token', access_token);
+          window.localStorage.setItem('refresh_token', refresh_token);
+        } catch (ee) {
+          console.error(ee);
+        }
+      }
     }
   }
 

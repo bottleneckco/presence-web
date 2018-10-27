@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
-import validateFunc from '../../util/auth';
+import validateToken from '../../util/auth';
 
 class AuthenticatedRoute extends Component {
   constructor(props) {
@@ -17,7 +17,8 @@ class AuthenticatedRoute extends Component {
 
   async checkAuth() {
     try {
-      await validateFunc();
+      const accessToken = window.localStorage.getItem('access_token');
+      await validateToken(accessToken);
       this.setState({ auth: true });
     } catch (e) {
       console.error(e);
