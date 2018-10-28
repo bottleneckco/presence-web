@@ -34,7 +34,7 @@ class Login extends Component {
         try {
           await validateToken(refreshToken);
           // Exchange refresh token for new tokens
-          const resp = await window.fetch(`${process.env.BACKEND_ROOT_URL}/api/oauth/token`, {
+          const resp = await window.fetch(`${process.env.BACKEND_ROOT_URL}/oauth/token`, {
             method: 'POST',
             body: JSON.stringify({
               grant_type: 'refresh_token',
@@ -52,7 +52,7 @@ class Login extends Component {
   }
 
   async handleGoogleSuccess({ tokenObj }) {
-    const resp = await window.fetch(`${process.env.BACKEND_ROOT_URL}/api/oauth/token`, {
+    const resp = await window.fetch(`${process.env.BACKEND_ROOT_URL}/oauth/token`, {
       method: 'POST',
       body: JSON.stringify({
         grant_type: 'password',
