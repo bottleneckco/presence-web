@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { GoogleLogin } from 'react-google-login';
 import { Redirect } from 'react-router-dom';
 
 import './styles.scss';
 import Modal from '../Modal';
 import validateToken from '../../util/auth';
+import userPropType from '../../prop-types/user';
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      auth: false,
       error: null,
     };
 
@@ -23,10 +24,11 @@ class Login extends Component {
   }
 
   async checkAlreadyAuthenticated() {
+    const { handleUserChange } = this.props;
     try {
       const accessToken = window.localStorage.getItem('access_token');
       await validateToken(accessToken);
-      this.setState({ auth: true });
+      handleUserChange();
     } catch (e) {
       console.error(e);
       const refreshToken = window.localStorage.getItem('refresh_token');
@@ -44,6 +46,7 @@ class Login extends Component {
           const { access_token, refresh_token } = await resp.json();
           window.localStorage.setItem('access_token', access_token);
           window.localStorage.setItem('refresh_token', refresh_token);
+          this.checkAlreadyAuthenticated();
         } catch (ee) {
           console.error(ee);
         }
@@ -77,8 +80,9 @@ class Login extends Component {
   }
 
   render() {
-    const { auth, error } = this.state;
-    if (auth) {
+    const { error } = this.state;
+    const { user } = this.props;
+    if (user !== null) {
       return <Redirect to="/home" />;
     }
     return (
@@ -96,5 +100,14 @@ class Login extends Component {
     );
   }
 }
+
+Login.defaultProps = {
+  user: null,
+};
+
+Login.propTypes = {
+  user: userPropType,
+  handleUserChange: PropTypes.func.isRequired,
+};
 
 export default Login;
