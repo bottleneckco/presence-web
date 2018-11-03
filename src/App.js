@@ -5,7 +5,7 @@ import AuthenticatedRoute from './components/AuthenticatedRoute';
 import Header from './components/Header';
 import Login from './components/Login';
 import validateToken from './util/auth';
-import fetch from './util/fetch';
+import { backendFetch } from './util/fetch';
 import './stylesheets/styles.scss';
 import Home from './components/Home';
 
@@ -25,7 +25,7 @@ class App extends Component {
     const accessToken = window.localStorage.getItem('access_token');
     try {
       await validateToken(accessToken);
-      const resp = await fetch(`${process.env.BACKEND_ROOT_URL}/api/users/me`)
+      const resp = await backendFetch('/api/users/me')
         .then((r) => r.json());
       this.setState({ user: resp.data });
     } catch (e) {

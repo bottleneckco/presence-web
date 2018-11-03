@@ -6,7 +6,7 @@ import PageHeader from '../PageHeader';
 import Status from '../Status';
 import Modal from '../Modal';
 import SimpleStatusForm from '../modal-forms/SimpleStatusForm';
-import fetch from '../../util/fetch';
+import { backendFetch } from '../../util/fetch';
 
 const STATUSES_SIMPLE = ['Lesson', 'Meeting', 'Roll call', 'In Office'];
 
@@ -21,7 +21,7 @@ class Home extends Component {
     this.getSinceTime = this.getSinceTime.bind(this);
     this.handleStatusClick = this.handleStatusClick.bind(this);
     this.submitStatus = async ({ status, text }) => {
-      const resp = await fetch(`${process.env.BACKEND_ROOT_URL}/api/status`, {
+      const resp = await backendFetch('/api/status', {
         method: 'POST',
         body: JSON.stringify({
           title: status,

@@ -1,7 +1,12 @@
-const fetch = (url, options) => window.fetch(url, Object.assign(options || {}, {
+const authedFetch = (url, options) => window.fetch(url, Object.assign(options || {}, {
   headers: {
     Authorization: `Bearer ${window.localStorage.getItem('access_token')}`,
   },
 }));
 
-export default fetch;
+const backendFetch = (route, options) => authedFetch(`${process.env.BACKEND_ROOT_URL}${route}`, options);
+
+export {
+  authedFetch,
+  backendFetch,
+};
