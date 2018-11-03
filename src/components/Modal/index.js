@@ -25,6 +25,7 @@ const modalStyle = {
 
 const Modal = ({ children, show, onClose }) => {
   if (!show) return null;
+  console.log(children);
   return (
     <div className="backdrop" style={backdropStyle}>
       <div className="modal" style={modalStyle}>
