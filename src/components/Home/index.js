@@ -77,7 +77,7 @@ class Home extends Component {
                 title={status}
                 sinceTime={this.getSinceTime(status)}
                 handleClick={() => this.handleStatusClick(status)}
-                current={latestStatus && status === latestStatus.title}
+                current={latestStatus && status === latestStatus.category}
               >
                 <Modal
                   show={currentModalStatus === status}
@@ -93,7 +93,7 @@ class Home extends Component {
                 title={title}
                 sinceTime={this.getSinceTime(title)}
                 handleClick={() => this.handleStatusClick(title)}
-                current={latestStatus && title === latestStatus.title}
+                current={latestStatus && title === latestStatus.category}
               >
                 <Modal
                   show={currentModalStatus === title}
@@ -109,7 +109,7 @@ class Home extends Component {
             ))
           }
           <Status
-            title={latestStatus ? latestStatus.title : 'Medical'}
+            title={`Medical ${latestStatus && latestStatus.category === 'Medical' ? latestStatus.title : ''}`}
             sinceTime={this.getSinceTime('Medical')}
             handleClick={() => this.handleStatusClick('Medical')}
             current={latestStatus && latestStatus.title.startsWith('Medical')}

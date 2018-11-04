@@ -18,7 +18,7 @@ class SimpleStatusForm extends Component {
     const { status, submit } = this.props;
     const { notes } = this.state;
 
-    submit({ title: status, notes });
+    submit({ title: status, category: status, notes });
   }
 
   render() {

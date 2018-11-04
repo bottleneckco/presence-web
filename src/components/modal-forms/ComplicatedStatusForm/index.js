@@ -21,13 +21,13 @@ class ComplicatedStatusForm extends Component {
   }
 
   submit() {
-    const { submit } = this.props;
+    const { status, submit } = this.props;
     const {
       title, start_time, end_time, notes,
     } = this.state;
 
     submit({
-      title, start_time, end_time, notes,
+      title, category: status, start_time, end_time, notes,
     });
   }
 

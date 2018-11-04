@@ -45,7 +45,7 @@ class MedicalStatusForm extends Component {
     } = this.state;
 
     submit({
-      title: `Medical - ${type}`, start_time: start_time || new Date(), end_time, notes,
+      title: 'Medical', category: type, start_time: start_time || new Date(), end_time, notes,
     });
   }
 
