@@ -43,11 +43,13 @@ class ComplicatedStatusForm extends Component {
         {titleLocked ? null : <input type="text" placeholder="Title" onChange={(e) => this.setState({ title: e.target.value })} required />}
         <span className="complicated_status_form__label">Start</span>
         <Datetime
+          dateFormat="DD MMM YYYY [at]"
           defaultValue={start_time}
           onChange={(start_time) => this.setState({ start_time })}
         />
         <span className="complicated_status_form__label">End</span>
         <Datetime
+          dateFormat="DD MMM YYYY [at]"
           defaultValue={end_time}
           onChange={(end_time) => this.setState({ end_time })}
         />

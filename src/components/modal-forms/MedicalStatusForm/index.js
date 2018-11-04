@@ -64,21 +64,27 @@ class MedicalStatusForm extends Component {
         { isMC ? <span className="complicated_status_form__label">Start</span> : null}
         { isMC ? (
           <Datetime
-            defaultValue={moment().startOf('day').hour(8).minute(0).toDate()}
+            dateFormat="DD MMM YYYY"
+            timeFormat={false}
+            defaultValue={moment().startOf('day').toDate()}
             onChange={(start_time) => this.setState({ start_time })}
           />
         ) : null}
         { isMC ? <span className="complicated_status_form__label">End</span> : null}
         { isMC ? (
           <Datetime
-            defaultValue={moment().startOf('day').hour(8).minute(0).toDate()}
+            dateFormat="DD MMM YYYY"
+            timeFormat={false}
+            defaultValue={moment().endOf('day').toDate()}
             onChange={(end_time) => this.setState({ end_time })}
           />
         ) : null}
         { isMA ? <span className="complicated_status_form__label">Time</span> : null}
         { isMA ? (
           <Datetime
-            defaultValue={moment().startOf('day').hour(10).minute(0).toDate()}
+            defaultValue={moment().startOf('day').hour(10).minute(0)
+              .toDate()}
+            dateFormat="DD MMM YYYY [at]"
             onChange={this.handleMATime}
           />
         ) : null}
