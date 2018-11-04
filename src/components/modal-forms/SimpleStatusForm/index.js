@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import './styles.scss';
+
 class SimpleStatusForm extends Component {
   constructor(props) {
     super(props);
@@ -22,9 +24,9 @@ class SimpleStatusForm extends Component {
   render() {
     const { status } = this.props;
     return (
-      <div>
+      <div className="simple_form">
         <h5>{status}</h5>
-        <textarea onChange={(e) => this.setState({ text: e.target.value })} placeholder="Notes (e.g. Classroom, Course Name)" />
+        <textarea className="simple_form__notes" onChange={(e) => this.setState({ text: e.target.value })} placeholder="Notes (e.g. Classroom, Course Name)" />
         <button onClick={this.submit} type="button">OK</button>
       </div>
     );
