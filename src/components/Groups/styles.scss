@@ -1,0 +1,22 @@
+@import '../../stylesheets/variables';
+
+.groups {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto 1fr auto;
+
+  .page_title {
+    grid-column: span 2;
+  }
+
+  &__empty_state {
+    text-align: center;
+    grid-column: span 2;
+    color: $gray;
+    margin: 20vh 0;
+  }
+
+  button {
+    grid-row: 3;
+  }
+}
