@@ -8,7 +8,7 @@ class SimpleStatusForm extends Component {
     super(props);
 
     this.state = {
-      text: null,
+      notes: null,
     };
 
     this.submit = this.submit.bind(this);
@@ -16,9 +16,9 @@ class SimpleStatusForm extends Component {
 
   submit() {
     const { status, submit } = this.props;
-    const { text } = this.state;
+    const { notes } = this.state;
 
-    submit({ status, text });
+    submit({ title: status, notes });
   }
 
   render() {
@@ -26,7 +26,7 @@ class SimpleStatusForm extends Component {
     return (
       <div className="simple_form">
         <h5>{status}</h5>
-        <textarea className="simple_form__notes" onChange={(e) => this.setState({ text: e.target.value })} placeholder="Notes (e.g. Classroom, Course Name)" />
+        <textarea className="simple_form__notes" onChange={(e) => this.setState({ notes: e.target.value })} placeholder="Notes (e.g. Classroom, Course Name)" />
         <button onClick={this.submit} type="button">OK</button>
       </div>
     );

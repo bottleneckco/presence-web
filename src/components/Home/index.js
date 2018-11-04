@@ -8,9 +8,10 @@ import Modal from '../Modal';
 import SimpleStatusForm from '../modal-forms/SimpleStatusForm';
 import { backendFetch } from '../../util/fetch';
 import ComplicatedStatusForm from '../modal-forms/ComplicatedStatusForm';
+import MedicalStatusForm from '../modal-forms/MedicalStatusForm';
 
 const STATUSES_SIMPLE = ['Lesson', 'Meeting', 'Roll call', 'In Office'];
-const STATUSES_COMPLICATED = [{ title: 'Off In Lieu', titleLocked: true }, { title: 'Course' }, { title: 'Out Base' }];
+const STATUSES_COMPLICATED = [{ title: 'Off In Lieu', titleLocked: true }, { title: 'Course' }, { title: 'Out Base' }, { title: 'Others' }];
 
 class Home extends Component {
   constructor(props) {
@@ -23,14 +24,12 @@ class Home extends Component {
     this.getSinceTime = this.getSinceTime.bind(this);
     this.handleStatusClick = this.handleStatusClick.bind(this);
     this.fetchLatestStatus = this.fetchLatestStatus.bind(this);
-    this.submitStatus = async ({ status, text }) => {
+    this.submitStatus = async (payload) => {
       const resp = await backendFetch('/api/status', {
         method: 'POST',
-        body: JSON.stringify({
-          title: status,
-          notes: text,
+        body: JSON.stringify(Object.assign({
           start_time: new Date(),
-        }),
+        }, payload)),
       });
       this.setState({ currentModalStatus: null });
       if (!resp.ok) {
@@ -43,7 +42,7 @@ class Home extends Component {
 
   getSinceTime(name) {
     const { latestStatus } = this.state;
-    if (latestStatus === null || latestStatus.title !== name) return null;
+    if (latestStatus === null || !latestStatus.title.startsWith(name)) return null;
     return latestStatus.start_time;
   }
 
@@ -109,6 +108,19 @@ class Home extends Component {
               </Status>
             ))
           }
+          <Status
+            title={latestStatus ? latestStatus.title : 'Medical'}
+            sinceTime={this.getSinceTime('Medical')}
+            handleClick={() => this.handleStatusClick('Medical')}
+            current={latestStatus && latestStatus.title.startsWith('Medical')}
+          >
+            <Modal
+              show={currentModalStatus && currentModalStatus.startsWith('Medical')}
+              onClose={() => this.setState({ currentModalStatus: null })}
+            >
+              <MedicalStatusForm submit={this.submitStatus} />
+            </Modal>
+          </Status>
         </div>
       </div>
     );
