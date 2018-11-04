@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import Datetime from 'react-datetime';
 
 import './styles.scss';
 
@@ -26,8 +27,8 @@ class MedicalStatusForm extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  handleMATime(e) {
-    const date = moment(e.target.value);
+  handleMATime(rawDate) {
+    const date = moment(rawDate);
     const isPM = date.hour() >= 12;
     const startHour = isPM ? 12 : 8;
     const endHour = isPM ? 17 : 12;
@@ -61,16 +62,26 @@ class MedicalStatusForm extends Component {
           }
         </select>
         { isMC ? <span className="complicated_status_form__label">Start</span> : null}
-        { isMC ? <input type="datetime-local" onChange={(e) => this.setState({ start_time: e.target.value })} required /> : null}
+        { isMC ? (
+          <Datetime
+            defaultValue={moment().hour(8).minute(0).toDate()}
+            onChange={(start_time) => this.setState({ start_time })}
+          />
+        ) : null}
         { isMC ? <span className="complicated_status_form__label">End</span> : null}
-        { isMC ? <input type="datetime-local" onChange={(e) => this.setState({ end_time: e.target.value })} required /> : null}
+        { isMC ? (
+          <Datetime
+            defaultValue={moment().hour(8).minute(0).toDate()}
+            onChange={(end_time) => this.setState({ end_time })}
+          />
+        ) : null}
         { isMA ? <span className="complicated_status_form__label">Time</span> : null}
         { isMA ? (
-          <input
-            type="datetime-local"
+          <Datetime
+            defaultValue={moment().hour(10).minute(0).toDate()}
             onChange={this.handleMATime}
-            required
-          />) : null}
+          />
+        ) : null}
         <textarea
           className="medical_status_form__notes"
           onChange={(e) => this.setState({ notes: e.target.value })}

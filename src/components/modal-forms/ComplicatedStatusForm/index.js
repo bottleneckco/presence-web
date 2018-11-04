@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import Datetime from 'react-datetime';
 
+import '../../../stylesheets/react-datetime.css';
 import './styles.scss';
 
 class ComplicatedStatusForm extends Component {
@@ -36,9 +39,15 @@ class ComplicatedStatusForm extends Component {
         {titleLocked ? null : <span className="complicated_status_form__label">Title</span>}
         {titleLocked ? null : <input type="text" placeholder="Title" onChange={(e) => this.setState({ title: e.target.value })} required />}
         <span className="complicated_status_form__label">Start</span>
-        <input type="datetime-local" onChange={(e) => this.setState({ start_time: e.target.value })} required />
+        <Datetime
+          defaultValue={moment().hour(8).minute(0).toDate()}
+          onChange={(start_time) => this.setState({ start_time })}
+        />
         <span className="complicated_status_form__label">End</span>
-        <input type="datetime-local" onChange={(e) => this.setState({ end_time: e.target.value })} required />
+        <Datetime
+          defaultValue={moment().hour(17).minute(30).toDate()}
+          onChange={(end_time) => this.setState({ end_time })}
+        />
         <textarea
           className="complicated_status_form__notes"
           onChange={(e) => this.setState({ notes: e.target.value })}
