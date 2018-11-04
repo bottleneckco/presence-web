@@ -12,8 +12,10 @@ class ComplicatedStatusForm extends Component {
 
     this.state = {
       title: props.titleLocked ? props.status : null,
-      start_time: null,
-      end_time: null,
+      start_time: moment().startOf('day').hour(8).minute(0)
+        .toDate(),
+      end_time: moment().startOf('day').hour(17).minute(30)
+        .toDate(),
       notes: null,
     };
 
@@ -33,6 +35,7 @@ class ComplicatedStatusForm extends Component {
 
   render() {
     const { status, titleLocked } = this.props;
+    const { start_time, end_time } = this.state;
     return (
       <div className="complicated_status_form">
         <h5 className="complicated_status_form__title">{status}</h5>
@@ -40,12 +43,12 @@ class ComplicatedStatusForm extends Component {
         {titleLocked ? null : <input type="text" placeholder="Title" onChange={(e) => this.setState({ title: e.target.value })} required />}
         <span className="complicated_status_form__label">Start</span>
         <Datetime
-          defaultValue={moment().hour(8).minute(0).toDate()}
+          defaultValue={start_time}
           onChange={(start_time) => this.setState({ start_time })}
         />
         <span className="complicated_status_form__label">End</span>
         <Datetime
-          defaultValue={moment().hour(17).minute(30).toDate()}
+          defaultValue={end_time}
           onChange={(end_time) => this.setState({ end_time })}
         />
         <textarea
