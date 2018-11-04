@@ -1,5 +1,12 @@
+@import '../../stylesheets/variables';
+
 .modal {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &__footer {
+    &__close {
+    }
+  }
 }

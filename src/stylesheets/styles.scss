@@ -56,3 +56,19 @@ p {
   margin: 0.5rem 0 0;
   line-height: 1.5;
 }
+
+button {
+  background-color: $blue;
+  border: 1px solid transparent;
+  padding: 5px 30px;
+  border-radius: 2.5px;
+  font-size: 0.8em;
+  color: white;
+
+  &:hover {
+    background-color: white;
+    color: $blue;
+    border: 1px solid $blue;
+    cursor: pointer;
+  }
+}

@@ -7,8 +7,10 @@ import Status from '../Status';
 import Modal from '../Modal';
 import SimpleStatusForm from '../modal-forms/SimpleStatusForm';
 import { backendFetch } from '../../util/fetch';
+import ComplicatedStatusForm from '../modal-forms/ComplicatedStatusForm';
 
 const STATUSES_SIMPLE = ['Lesson', 'Meeting', 'Roll call', 'In Office'];
+const STATUSES_COMPLICATED = [{ title: 'Off In Lieu', titleLocked: true }, { title: 'Course' }, { title: 'Out Base' }];
 
 class Home extends Component {
   constructor(props) {
@@ -31,7 +33,7 @@ class Home extends Component {
       });
       this.setState({ currentModalStatus: null });
       if (!resp.ok) {
-        this.setState({ error: `Error submitting payload: ${await resp.json()}` });
+        this.setState({ error: `Error submitting payload: ${JSON.stringify(await resp.json(), null, 2)}` });
       }
     };
   }
@@ -73,6 +75,22 @@ class Home extends Component {
                   <SimpleStatusForm status={status} submit={this.submitStatus} />
                 </Modal>
               </Status>))
+          }
+          {
+            STATUSES_COMPLICATED.map(({ title, titleLocked }) => (
+              <Status
+                title={title}
+                sinceTime={this.getSinceTime(title)}
+                handleClick={() => this.handleStatusClick(title)}
+              >
+                <Modal
+                  show={currentModalStatus === title}
+                  onClose={() => this.setState({ currentModalStatus: null })}
+                >
+                  <ComplicatedStatusForm status={title} submit={this.submitStatus} titleLocked={titleLocked} />
+                </Modal>
+              </Status>
+            ))
           }
         </div>
       </div>

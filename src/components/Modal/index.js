@@ -31,8 +31,8 @@ const Modal = ({ children, show, onClose }) => {
       <div className="modal" style={modalStyle}>
         {children}
 
-        <div className="footer">
-          <button onClick={onClose} type="button">
+        <div className="modal__footer">
+          <button className="modal__footer__close" onClick={onClose} type="button">
             Close
           </button>
         </div>
