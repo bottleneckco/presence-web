@@ -26,4 +26,14 @@
     font-weight: 700;
     color: $gray;
   }
+
+  &.current {
+    .status__icon {
+      background-color: $blue;
+    }
+
+    .status__title {
+      color: $blue;
+    }
+  }
 }

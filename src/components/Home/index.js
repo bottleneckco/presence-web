@@ -22,6 +22,7 @@ class Home extends Component {
     };
     this.getSinceTime = this.getSinceTime.bind(this);
     this.handleStatusClick = this.handleStatusClick.bind(this);
+    this.fetchLatestStatus = this.fetchLatestStatus.bind(this);
     this.submitStatus = async ({ status, text }) => {
       const resp = await backendFetch('/api/status', {
         method: 'POST',
@@ -35,13 +36,23 @@ class Home extends Component {
       if (!resp.ok) {
         this.setState({ error: `Error submitting payload: ${JSON.stringify(await resp.json(), null, 2)}` });
       }
+      this.fetchLatestStatus();
     };
+    this.fetchLatestStatus();
   }
 
   getSinceTime(name) {
     const { latestStatus } = this.state;
-    if (latestStatus === null || latestStatus.name !== name) return null;
+    if (latestStatus === null || latestStatus.title !== name) return null;
     return latestStatus.start_time;
+  }
+
+  async fetchLatestStatus() {
+    const resp = await backendFetch('/api/status/latest');
+    if (resp.ok) {
+      const { data } = await resp.json();
+      this.setState({ latestStatus: data });
+    }
   }
 
   handleStatusClick(status) {
@@ -49,7 +60,7 @@ class Home extends Component {
   }
 
   render() {
-    const { currentModalStatus, error } = this.state;
+    const { currentModalStatus, latestStatus, error } = this.state;
     return (
       <div className="home">
         <PageHeader title="Make a Status Update" subtitle="Heading somewhere? Pick your most relevant status." />
@@ -67,6 +78,7 @@ class Home extends Component {
                 title={status}
                 sinceTime={this.getSinceTime(status)}
                 handleClick={() => this.handleStatusClick(status)}
+                current={latestStatus && status === latestStatus.title}
               >
                 <Modal
                   show={currentModalStatus === status}
@@ -82,12 +94,17 @@ class Home extends Component {
                 title={title}
                 sinceTime={this.getSinceTime(title)}
                 handleClick={() => this.handleStatusClick(title)}
+                current={latestStatus && title === latestStatus.title}
               >
                 <Modal
                   show={currentModalStatus === title}
                   onClose={() => this.setState({ currentModalStatus: null })}
                 >
-                  <ComplicatedStatusForm status={title} submit={this.submitStatus} titleLocked={titleLocked} />
+                  <ComplicatedStatusForm
+                    status={title}
+                    submit={this.submitStatus}
+                    titleLocked={titleLocked}
+                  />
                 </Modal>
               </Status>
             ))

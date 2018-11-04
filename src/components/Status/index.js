@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 
 import './styles.scss';
 
-const Status = ({ children, title, sinceTime, icon, handleClick }) => (
-  <div className="status">
+const Status = ({
+  current, children, title, sinceTime, icon, handleClick,
+}) => (
+  <div className={`status ${current ? 'current' : ''}`}>
     <div className="status__icon" onClick={handleClick}>
       <img src={icon} alt="icon" />
     </div>
@@ -17,6 +19,7 @@ const Status = ({ children, title, sinceTime, icon, handleClick }) => (
 Status.defaultProps = {
   sinceTime: null,
   children: null,
+  current: false,
 };
 
 Status.propTypes = {
@@ -25,6 +28,7 @@ Status.propTypes = {
   icon: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   children: PropTypes.node,
+  current: PropTypes.bool,
 };
 
 export default Status;
