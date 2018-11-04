@@ -42,7 +42,7 @@ class ComplicatedStatusForm extends Component {
         <textarea
           className="complicated_status_form__notes"
           onChange={(e) => this.setState({ notes: e.target.value })}
-          placeholder="Notes (e.g. Classroom, Course Name)"
+          placeholder="Notes (e.g. Location, Purpose)"
         />
         <button onClick={this.submit} type="button">OK</button>
       </div>

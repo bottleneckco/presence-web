@@ -25,7 +25,7 @@ class SimpleStatusForm extends Component {
     const { status } = this.props;
     return (
       <div className="simple_form">
-        <h5>{status}</h5>
+        <h5 className="simple_form__title">{status}</h5>
         <textarea className="simple_form__notes" onChange={(e) => this.setState({ notes: e.target.value })} placeholder="Notes (e.g. Classroom, Course Name)" />
         <button onClick={this.submit} type="button">OK</button>
       </div>
