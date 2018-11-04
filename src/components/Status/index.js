@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './styles.scss';
+import moment from 'moment';
 
 const Status = ({
   current, children, title, sinceTime, icon, handleClick,
@@ -11,7 +12,7 @@ const Status = ({
       <img src={icon} alt="icon" />
     </div>
     <span className="status__title">{title}</span>
-    <span className="status__since">{sinceTime}</span>
+    <span className="status__since">{sinceTime ? moment(sinceTime).fromNow() : null }</span>
     {children}
   </div>
 );
