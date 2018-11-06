@@ -10,6 +10,7 @@ import './stylesheets/styles.scss';
 import Home from './components/Home';
 import Groups from './components/Groups';
 import Movement from './components/Movement';
+import Facilities from './components/Facilities';
 
 class App extends Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class App extends Component {
               <Route exact path="/" render={(props) => <Login {...props} user={user} handleUserChange={this.checkUser} />} />
               <AuthenticatedRoute>
                 <Route path="/home" render={(props) => <Home {...props} user={user} />} />
+                <Route path="/facilities" render={(props) => <Facilities {...props} user={user} />} />
                 <Route path="/movement" render={(props) => <Movement {...props} user={user} />} />
                 <Route path="/groups" render={(props) => <Groups {...props} user={user} />} />
               </AuthenticatedRoute>
