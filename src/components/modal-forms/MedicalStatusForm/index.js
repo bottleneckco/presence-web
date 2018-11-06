@@ -18,39 +18,56 @@ class MedicalStatusForm extends Component {
 
     this.state = {
       type: TYPES[0],
-      start_time: null,
-      end_time: null,
+      mcStartTime: moment().startOf('day').toDate(),
+      mcEndTime: moment().endOf('day').toDate(),
+      maStartTime: moment().startOf('day').hour(10).minute(0)
+        .toDate(),
       notes: null,
     };
-
-    this.handleMATime = this.handleMATime.bind(this);
     this.submit = this.submit.bind(this);
-  }
-
-  handleMATime(rawDate) {
-    const date = moment(rawDate);
-    const isPM = date.hour() >= 12;
-    const startHour = isPM ? 12 : 8;
-    const endHour = isPM ? 17 : 12;
-    this.setState({
-      start_time: moment().minute(0).hour(startHour).toDate(),
-      end_time: moment().minute(0).hour(endHour).toDate(),
-    });
   }
 
   submit() {
     const { submit } = this.props;
     const {
-      type, start_time, end_time, notes,
+      type, mcStartTime, mcEndTime, maStartTime, notes,
     } = this.state;
 
+    let start_time;
+    let end_time;
+
+    switch (TYPES.indexOf(type)) {
+      case 0:
+      case 1:
+        start_time = new Date();
+        break;
+      case 2:
+        start_time = mcStartTime;
+        end_time = mcEndTime;
+        break;
+      case 3: {
+        const date = moment(maStartTime);
+        const isPM = date.hour() >= 12;
+        const startHour = isPM ? 12 : 8;
+        const endHour = isPM ? 17 : 12;
+        start_time = moment().startOf('day').minute(0).hour(startHour)
+          .toDate();
+        end_time = moment().startOf('day').minute(0).hour(endHour)
+          .toDate();
+        break;
+      }
+      default: break;
+    }
+
     submit({
-      title: 'Medical', category: type, start_time: start_time || new Date(), end_time, notes,
+      title: 'Medical', category: type, start_time, end_time, notes,
     });
   }
 
   render() {
-    const { type } = this.state;
+    const {
+      type, mcStartTime, mcEndTime, maStartTime,
+    } = this.state;
     const isMC = type === TYPES[2];
     const isMA = type === TYPES[3];
     return (
@@ -66,8 +83,8 @@ class MedicalStatusForm extends Component {
           <Datetime
             dateFormat="DD MMM YYYY"
             timeFormat={false}
-            defaultValue={moment().startOf('day').toDate()}
-            onChange={(start_time) => this.setState({ start_time })}
+            defaultValue={mcStartTime}
+            onChange={(v) => this.setState({ mcStartTime: v })}
           />
         ) : null}
         { isMC ? <span className="complicated_status_form__label">End</span> : null}
@@ -75,17 +92,16 @@ class MedicalStatusForm extends Component {
           <Datetime
             dateFormat="DD MMM YYYY"
             timeFormat={false}
-            defaultValue={moment().endOf('day').toDate()}
-            onChange={(end_time) => this.setState({ end_time })}
+            defaultValue={mcEndTime}
+            onChange={(v) => this.setState({ mcEndTime: v })}
           />
         ) : null}
         { isMA ? <span className="complicated_status_form__label">Time</span> : null}
         { isMA ? (
           <Datetime
-            defaultValue={moment().startOf('day').hour(10).minute(0)
-              .toDate()}
+            defaultValue={maStartTime}
             dateFormat="DD MMM YYYY [at]"
-            onChange={this.handleMATime}
+            onChange={(v) => this.setState({ maStartTime: v })}
           />
         ) : null}
         <textarea
