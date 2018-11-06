@@ -4,6 +4,7 @@ import { backendFetch } from '../../util/fetch';
 
 import './styles.scss';
 import PageHeader from '../PageHeader';
+import MovementStatus from '../MovementStatus';
 
 class Movement extends Component {
   constructor(props) {
@@ -34,12 +35,7 @@ class Movement extends Component {
               <span className="movement__group__name">{group.group_name}</span>
               {
                 group.statuses.map((status) => (
-                  <div className="movement__group__status">
-                    <img className="movement__group__status__pic" src={status.user.picture} alt="" />
-                    <span className="movement__group__status__username">{status.user.name}</span>
-                    <span className="movement__group__status__text">{status.category} - {status.title}</span>
-                    <span className="movement__group__status__since">{moment(status.start_time).fromNow()}</span>
-                  </div>
+                  <MovementStatus status={status} />
                 ))
               }
             </div>

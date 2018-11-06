@@ -1,0 +1,43 @@
+@import '../../stylesheets/variables';
+
+.movement__group__status {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto auto auto;
+  padding: 8px;
+  grid-column-gap: 8px;
+
+  &__pic {
+    grid-column: 1/1;
+    grid-row: span 4;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    align-self: center;
+  }
+
+  &__username {
+    font-size: 14px;
+    font-weight: 700;
+    color: $darkgray;
+    margin-bottom: 4px;
+  }
+
+  &__text {
+    font-size: 10px;
+    font-weight: 900;
+    color: $darkgray;
+  }
+
+  &__notes {
+    font-size: 10px;
+    font-weight: 900;
+    color: $gray;
+  }
+
+  &__since {
+    font-size: 10px;
+    font-weight: 900;
+    color: $gray;
+  }
+}
