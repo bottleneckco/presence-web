@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: auto 1fr auto;
+  grid-row-gap: 16px;
 
   .page_title {
     grid-column: span 2;

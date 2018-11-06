@@ -1,0 +1,28 @@
+@import '../../../stylesheets/variables';
+
+.group_join_form {
+  display: grid;
+  justify-content: stretch;
+  grid-row-gap: 8px;
+
+  &__title {
+    font-size: 24px;
+    text-align: center;
+    margin: 0;
+  }
+
+  &__subtitle {
+    text-align: center;
+    color: $gray;
+    font-size: 14px;
+  }
+
+  &__input {
+    font-size: 1em;
+    margin: 0;
+  }
+
+  button {
+    margin: 0;
+  }
+}

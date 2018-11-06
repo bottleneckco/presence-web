@@ -1,0 +1,20 @@
+.group_create_form {
+  display: grid;
+  justify-content: stretch;
+  grid-row-gap: 8px;
+
+  &__title {
+    font-size: 24px;
+    text-align: center;
+    margin: 0;
+  }
+
+  &__input {
+    font-size: 1em;
+    margin: 0;
+  }
+
+  button {
+    margin: 0;
+  }
+}
