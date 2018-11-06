@@ -60,10 +60,11 @@ p {
 button {
   background-color: $blue;
   border: 1px solid transparent;
-  padding: 5px 30px;
+  padding: 10px 30px;
   border-radius: 2.5px;
   font-size: 0.8em;
   color: white;
+  margin: 0;
 
   &:hover {
     background-color: white;

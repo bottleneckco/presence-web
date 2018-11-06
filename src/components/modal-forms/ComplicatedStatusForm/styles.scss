@@ -9,18 +9,27 @@
   &__title {
     grid-column: span 2;
     text-align: center;
+    margin: 0;
   }
 
   input {
-    font-size: 1em;
+    font-size: 0.7em;
     padding: 5px;
+  }
+
+  &__label {
+    font-size: 0.7em;
   }
 
   &__notes {
     grid-column: span 2;
     min-height: 40vh;
-    font-size: 1em;
+    font-size: 0.7em;
     resize: none;
-    padding: 5px;
+    padding: 8px;
+  }
+
+  button {
+    grid-column: span 2;
   }
 }

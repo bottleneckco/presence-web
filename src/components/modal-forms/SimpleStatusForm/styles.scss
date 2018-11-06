@@ -1,14 +1,16 @@
 .simple_form {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  display: grid;
+  grid-row-gap: 16px;
 
   &__title {
+    margin: 0;
     text-align: center;
   }
 
   &__notes {
-    font-size: 1em;
+    resize: none;
+    padding: 8px;
+    font-size: 0.7em;
     min-height: 40vh;
   }
 }
