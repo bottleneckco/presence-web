@@ -6,7 +6,7 @@ import './styles.scss';
 
 const Header = ({ user }) => (
   <div className="header">
-    <h1 className="header__title">Statuses</h1>
+    <h1 className="header__title">Presence</h1>
     {
       user != null ? [
         <Link to="/home">Home</Link>,
