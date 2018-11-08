@@ -9,6 +9,7 @@ import SimpleStatusForm from '../modal-forms/SimpleStatusForm';
 import { backendFetch } from '../../util/fetch';
 import ComplicatedStatusForm from '../modal-forms/ComplicatedStatusForm';
 import MedicalStatusForm from '../modal-forms/MedicalStatusForm';
+import LeaveStatusForm from '../modal-forms/LeaveStatusForm';
 
 const STATUSES_SIMPLE = ['Lesson', 'Meeting', 'Roll call', 'In Office'];
 const STATUSES_COMPLICATED = [{ title: 'Off In Lieu', titleLocked: true }, { title: 'Course' }, { title: 'Out Base' }, { title: 'Others' }];
@@ -87,6 +88,19 @@ class Home extends Component {
                 </Modal>
               </Status>))
           }
+          <Status
+            title="Leave"
+            sinceTime={this.getSinceTime('Leave')}
+            handleClick={() => this.handleStatusClick('Leave')}
+            current={latestStatus && latestStatus.title.startsWith('Leave')}
+          >
+            <Modal
+              show={currentModalStatus && currentModalStatus.startsWith('Leave')}
+              onClose={() => this.setState({ currentModalStatus: null })}
+            >
+              <LeaveStatusForm submit={this.submitStatus} />
+            </Modal>
+          </Status>
           {
             STATUSES_COMPLICATED.map(({ title, titleLocked }) => (
               <Status
