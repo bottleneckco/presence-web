@@ -13,6 +13,7 @@
     height: 60px;
     border-radius: 50%;
     background-color: $platinum;
+    margin-bottom: 4px;
   }
 
   &__title {
@@ -30,6 +31,10 @@
   &.current {
     .status__icon {
       background-color: $blue;
+
+      > img {
+        filter: invert(100%);
+      }
     }
 
     .status__title {

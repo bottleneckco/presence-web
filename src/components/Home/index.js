@@ -11,8 +11,28 @@ import ComplicatedStatusForm from '../modal-forms/ComplicatedStatusForm';
 import MedicalStatusForm from '../modal-forms/MedicalStatusForm';
 import LeaveStatusForm from '../modal-forms/LeaveStatusForm';
 
-const STATUSES_SIMPLE = ['Lesson', 'Meeting', 'Roll call', 'In Office'];
-const STATUSES_COMPLICATED = [{ title: 'Off In Lieu', titleLocked: true }, { title: 'Course' }, { title: 'Out Base' }, { title: 'Others' }];
+import lessonIcon from '../../images/book-open-page-variant.svg';
+import meetingIcon from '../../images/door-closed.svg';
+import rollCallIcon from '../../images/human-male.svg';
+import inOfficeIcon from '../../images/desktop-classic.svg';
+import leaveIcon from '../../images/account-off-outline.svg';
+import courseIcon from '../../images/library-books.svg';
+import outBaseIcon from '../../images/exit-run.svg';
+import otherIcon from '../../images/help-circle.svg';
+import medicalIcon from '../../images/medical-bag.svg';
+
+const STATUSES_SIMPLE = [
+  { title: 'Lesson', icon: lessonIcon },
+  { title: 'Meeting', icon: meetingIcon },
+  { title: 'Roll call', icon: rollCallIcon },
+  { title: 'In Office', icon: inOfficeIcon },
+];
+const STATUSES_COMPLICATED = [
+  { title: 'Off In Lieu', titleLocked: true, icon: leaveIcon },
+  { title: 'Course', icon: courseIcon },
+  { title: 'Out Base', icon: outBaseIcon },
+  { title: 'Others', icon: otherIcon },
+];
 
 class Home extends Component {
   constructor(props) {
@@ -73,18 +93,19 @@ class Home extends Component {
         }
         <div className="home__statuses">
           {
-            STATUSES_SIMPLE.map((status) => (
+            STATUSES_SIMPLE.map(({ title, icon }) => (
               <Status
-                title={status}
-                sinceTime={this.getSinceTime(status)}
-                handleClick={() => this.handleStatusClick(status)}
-                current={latestStatus && status === latestStatus.category}
+                title={title}
+                sinceTime={this.getSinceTime(title)}
+                handleClick={() => this.handleStatusClick(title)}
+                current={latestStatus && title === latestStatus.category}
+                icon={icon}
               >
                 <Modal
-                  show={currentModalStatus === status}
+                  show={currentModalStatus === title}
                   onClose={() => this.setState({ currentModalStatus: null })}
                 >
-                  <SimpleStatusForm status={status} submit={this.submitStatus} />
+                  <SimpleStatusForm status={title} submit={this.submitStatus} />
                 </Modal>
               </Status>))
           }
@@ -93,6 +114,7 @@ class Home extends Component {
             sinceTime={this.getSinceTime('Leave')}
             handleClick={() => this.handleStatusClick('Leave')}
             current={latestStatus && latestStatus.title.startsWith('Leave')}
+            icon={leaveIcon}
           >
             <Modal
               show={currentModalStatus && currentModalStatus.startsWith('Leave')}
@@ -102,12 +124,13 @@ class Home extends Component {
             </Modal>
           </Status>
           {
-            STATUSES_COMPLICATED.map(({ title, titleLocked }) => (
+            STATUSES_COMPLICATED.map(({ title, titleLocked, icon }) => (
               <Status
                 title={title}
                 sinceTime={this.getSinceTime(title)}
                 handleClick={() => this.handleStatusClick(title)}
                 current={latestStatus && title === latestStatus.category}
+                icon={icon}
               >
                 <Modal
                   show={currentModalStatus === title}
@@ -127,6 +150,7 @@ class Home extends Component {
             sinceTime={this.getSinceTime('Medical')}
             handleClick={() => this.handleStatusClick('Medical')}
             current={latestStatus && latestStatus.title.startsWith('Medical')}
+            icon={medicalIcon}
           >
             <Modal
               show={currentModalStatus && currentModalStatus.startsWith('Medical')}
