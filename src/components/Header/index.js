@@ -9,10 +9,10 @@ const Header = ({ user }) => (
     <h1 className="header__title">Presence</h1>
     {
       user != null ? [
-        <Link to="/home">Home</Link>,
-        <Link to="/movement">Movement</Link>,
-        <Link to="/facilities">Facilities</Link>,
-        <Link to="/groups">Groups</Link>,
+        <Link key="home" to="/home">Home</Link>,
+        <Link key="movement" to="/movement">Movement</Link>,
+        <Link key="facilities" to="/facilities">Facilities</Link>,
+        <Link key="groups" to="/groups">Groups</Link>,
       ] : null
     }
     {
