@@ -48,7 +48,7 @@ class Movement extends Component {
               <span className="movement__group__name">{group.group_name}</span>
               {
                 group.statuses.map((status) => (
-                  <MovementStatus status={status} />
+                  <MovementStatus key={`${status.title}-${status.user.name}`} status={status} />
                 ))
               }
             </div>
