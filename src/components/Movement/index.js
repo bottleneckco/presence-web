@@ -24,7 +24,7 @@ class Movement extends Component {
     const body = await resp.json();
     const { data } = body;
     if (!data) {
-      this.setState({ error: `Error submitting payload: ${JSON.stringify(body, null, 2)}` });
+      this.setState({ error: `Error fetching movement data: ${JSON.stringify(body, null, 2)}` });
       return;
     }
     this.setState({ data });
